@@ -8,6 +8,12 @@
 Repositori ini berisi alur kerja (workflow) n8n untuk mengotomatiskan proses analisis dan penilaian CV, dari file PDF yang diunggah di Google Drive hingga hasil terstruktur di Google Sheets, dengan evaluasi cerdas dari AI Google Gemini.
 
 ---
+# Automated CV Analysis & Scoring Pipeline with n8n and Google Gemini
+
+![Tampilan Alur Kerja n8n](Screenshot%202025-09-07%20172902.png)
+
+[![n8n](https://img.shields.io/badge/n8n-Workflow-orange.svg)](https://n8n.io/)
+
 
 ## flowchart Alur Kerja
 
@@ -180,3 +186,4 @@ Alur kerja ini memerlukan otorisasi untuk mengakses Google Drive, Sheets, dan Ge
 ## 📄 Lisensi
 
 Proyek ini dilisensikan di bawah Lisensi MIT. Lihat file `LICENSE` untuk detailnya.
+
