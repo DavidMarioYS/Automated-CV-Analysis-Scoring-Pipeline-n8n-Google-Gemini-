@@ -1,0 +1,361 @@
+{
+  "name": "CV Analyze",
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "triggerOn": "specificFolder",
+        "folderToWatch": {
+          "__rl": true,
+          "value": "1GX3wQa3C6zalhOk2OGUd3t6glcYHPTOS",
+          "mode": "id"
+        },
+        "event": "fileCreated",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDriveTrigger",
+      "typeVersion": 1,
+      "position": [
+        16,
+        608
+      ],
+      "id": "1d522807-b3bc-4295-b78d-ef25262e7400",
+      "name": "Google Drive Trigger1",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "xmWjappaiV1RAk57",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "={{ $json.id }}",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        224,
+        608
+      ],
+      "id": "ddff7702-9f61-480f-83b7-25e71438bb9a",
+      "name": "Download file1",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "xmWjappaiV1RAk57",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "pdf",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1,
+      "position": [
+        432,
+        608
+      ],
+      "id": "49b84259-5489-4374-9a67-dc4a9c05d39a",
+      "name": "Extract from File1"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1Ro6GNUV327BlLltna-TNhGwUy_cY5D9di9csRQkwLpc",
+          "mode": "list",
+          "cachedResultName": "n8n Analysis CV",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1Ro6GNUV327BlLltna-TNhGwUy_cY5D9di9csRQkwLpc/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1Ro6GNUV327BlLltna-TNhGwUy_cY5D9di9csRQkwLpc/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "ID": "={{ $('Google Drive Trigger1').item.json.id }}",
+            "Name": "={{ $json.Name }}",
+            "Email": "={{ $json.Email }}",
+            "Education": "={{ $json.Education }}",
+            "Experience": "={{ JSON.stringify($json.Experience) }}",
+            "Project": "={{ $json.Project.join(', ') }}",
+            "Organization": "={{ $json.Organization.join(', ') }}",
+            "Skills": "={{ $json.Skills.join(', ') }}",
+            "Certificate": "={{ $json.Certificate.join(', ') }}",
+            "Nilai": "={{ $json.overall_score }}"
+          },
+          "matchingColumns": [
+            "ID"
+          ],
+          "schema": [
+            {
+              "id": "ID",
+              "displayName": "ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Education",
+              "displayName": "Education",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Experience",
+              "displayName": "Experience",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Project",
+              "displayName": "Project",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Organization",
+              "displayName": "Organization",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Skills",
+              "displayName": "Skills",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Certificate",
+              "displayName": "Certificate",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Nilai",
+              "displayName": "Nilai",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1408,
+        608
+      ],
+      "id": "9c31d54e-0102-4143-8a6d-da235b7ed1f7",
+      "name": "Append or update row in sheet1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "RvkVazj5JEoACmC8",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Anda adalah seorang AI Recruitment Analyst yang sangat ahli dalam menganalisis CV secara objektif dan memberikan penilaian kuantitatif.\n\nTugas Anda ada dua:\n1. Ekstrak informasi kunci dari CV sesuai struktur JSON yang diminta.\n2. Lakukan analisis mendalam untuk memberikan skor evaluasi keseluruhan.\n\nTeks Resume:\n{{ $('Extract from File1').item.json.text }}\n\nLakukan analisis dan berikan skor (`overall_score`) dari 1 hingga 100 berdasarkan kriteria berikut:\n- Relevansi & Pencapaian Pengalaman (Bobot 45%)\n- Keahlian Teknis & Tools (Bobot 30%)\n- Pendidikan & Sertifikasi (Bobot 15%)\n- Kejelasan & Profesionalisme (Bobot 10%)\n\n---\nPENTING:\nJAWAB HANYA DAN EKSKLUSIF DENGAN KODE JSON YANG VALID.\nJANGAN TAMBAHKAN TEKS PEMBUKA SEPERTI \"Berikut adalah JSON-nya\".\nJANGAN TAMBAHKAN TEKS PENUTUP.\nJANGAN GUNAKAN MARKDOWN ```json.\nLANGSUNG MULAI DENGAN `{` DAN AKHIRI DENGAN `}`.\n\nStruktur JSON yang diinginkan:\n{\n  \"Name\": \"Nama lengkap kandidat\",\n  \"Email\": \"Alamat email kandidat\",\n  \"Education\": \"Riwayat pendidikan terakhir (Institusi dan Jurusan)\",\n  \"Experience\": [\n    {\n      \"company\": \"Nama Perusahaan\",\n      \"position\": \"Jabatan\",\n      \"duration\": \"Lama bekerja\"\n    }\n  ],\n  \"Project\": [\"Nama proyek 1\", \"Nama proyek 2\"],\n  \"Organization\": [\"Pengalaman organisasi 1\", \"Pengalaman organisasi 2\"],\n  \"Skills\": [\"Keahlian 1\", \"Keahlian 2\", \"Keahlian 3\"],\n  \"Certificate\": [\"Sertifikat 1\", \"Sertifikat 2\"],\n  \"overall_score\": 85\n}",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        736,
+        608
+      ],
+      "id": "abe8165c-303d-4cd1-b62c-706d3879a088",
+      "name": "AI Agent1"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-1.5-flash-latest",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        736,
+        832
+      ],
+      "id": "c7db72c6-df2a-4bb2-900a-9a37a885d02c",
+      "name": "Google Gemini Chat Model1",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "p5zDiL3zvupgxVsN",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Mengambil output teks dari node AI Agent\nconst rawOutput = $input.item.json.output;\n\n// Membersihkan teks dari ```json dan ``` di awal/akhir\nconst cleanedString = rawOutput.replace(/```json\\n|\\n```/g, '');\n\n// Mengubah teks yang sudah bersih menjadi objek JSON\nconst jsonData = JSON.parse(cleanedString);\n\n// Mengembalikan objek JSON agar bisa digunakan node selanjutnya\nreturn jsonData;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1088,
+        608
+      ],
+      "id": "6c1bc3ad-e211-4bee-ad83-908b9a588421",
+      "name": "Code1"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Google Drive Trigger1": {
+      "main": [
+        [
+          {
+            "node": "Download file1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download file1": {
+      "main": [
+        [
+          {
+            "node": "Extract from File1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract from File1": {
+      "main": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent1": {
+      "main": [
+        [
+          {
+            "node": "Code1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code1": {
+      "main": [
+        [
+          {
+            "node": "Append or update row in sheet1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "timezone": "Asia/Jakarta",
+    "callerPolicy": "workflowsFromSameOwner",
+    "saveExecutionProgress": true,
+    "saveManualExecutions": true,
+    "saveDataErrorExecution": "all",
+    "saveDataSuccessExecution": "all",
+    "errorWorkflow": "UliZKmJzI1qarCbE",
+    "timeSavedPerExecution": 1
+  },
+  "versionId": "578b2f0b-3435-4db8-a566-d6e708eebe37",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "6ae841d5f4028aac5b0f4e0724be2e21b0f4a6cfc69d929d952e9755f75ea030"
+  },
+  "id": "UliZKmJzI1qarCbE",
+  "tags": []
+}
